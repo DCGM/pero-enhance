@@ -21,7 +21,7 @@ def parseargs():
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input-images', required=True, help='Input image folder to enhance')
     parser.add_argument('-o', '--output-path', required=True, help='output image folder to save enhanced images')
-    parser.add_argument('-r', '--repair-json', help='Path to repair engine json', default='./models/LN_enhancement_models/repair_engine.json')
+    parser.add_argument('-r', '--repair-json', help='Path to repair engine json', default='./model/enhance_LN_2019-12-18/repair_engine.json')
     parser.add_argument('-x', '--input-page', help='Input page xml folder (if empty or None, automatic line detection and OCR is run', default=None)
     parser.add_argument('-p', '--parse-config', help='Path to page parser config file', default=None)
     return parser.parse_args()

@@ -23,8 +23,8 @@ def parseargs():
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input-img', required=True, help='Input image to repair')
     parser.add_argument('-p', '--input-page', required=True, help='Input page xml (should contain detected lines and text)')
-    parser.add_argument('-r', '--repair-json', help='Path to repair engine json', default='./models/LN_enhancement_models/repair_engine.json')
-    parser.add_argument('-o', '--ocr-json', help='Path to OCR engine json', default='./models/LN_parser_models/ocr_engine.json')
+    parser.add_argument('-r', '--repair-json', help='Path to repair engine json', default='./model/enhance_LN_2019-12-18/repair_engine.json')
+    parser.add_argument('-o', '--ocr-json', help='Path to OCR engine json', default='./model/ocr_LN_2019-12-18/ocr_engine.json')
     return parser.parse_args()
 
 class LayoutClicker(object):
@@ -177,11 +177,16 @@ def main():
             layout_clicker.chosen_line.transcription = new_transcription
 
             if action == 'repair':
-                page_img = enhancer.enhance(page_img, layout_clicker.chosen_line)
+                page_img = enhancer.enhance_line_in_page(page_img, layout_clicker.chosen_line)
                 page_img_rendered = page_img.copy()
 
             elif action == 'revert':
-                page_img = enhancer.enhance(page_img, layout_clicker.chosen_line)
+                line_crop, line_mapping, offset = enhancer.cropper.crop(
+                            page_img_orig,
+                            layout_clicker.chosen_line.baseline,
+                            layout_clicker.chosen_line.heights,
+                            return_mapping=True)
+                page_img = enhancer.cropper.blend_in(page_img, line_crop, line_mapping, offset)
                 page_img_rendered = page_img.copy()
 
         elif key == ord('e') and len(layout_clicker.points)==2:
@@ -195,7 +200,6 @@ def main():
             y2 = np.round(line_mapping[line_mapping.shape[0]//2, np.clip(layout_clicker.points[1][1]-offset[1], 0, line_mapping.shape[1]-2), 1]).astype(np.uint16)
             if layout_clicker.points[1][1]-offset[1] > line_mapping.shape[1]-10: # dirty fix noisy values at the end of coord map
                 y2 = np.amax(line_mapping[:,:,1].astype(np.uint16))
-            print('{}/{}'.format(y2, line_crop.shape[1]))
             transcriptions, _ = ocr_engine.process_lines([line_crop[:, :np.minimum(y1, y2), :],
                                                           line_crop[:, np.maximum(y1, y2):, :]])
             line_crop[:, np.minimum(y1, y2):np.maximum(y1, y2), :] = 0

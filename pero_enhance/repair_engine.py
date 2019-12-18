@@ -87,6 +87,10 @@ class EngineRepairCNN(object):
         labels = self._transcriptions_to_labels([transcription])[0]
         labels = self._clip_or_pad_labels(labels).astype(np.int32)
 
+        if line.shape[1] > self.max_width:
+            print('Warning: image line too long, please only attempt repairing lines shorter than {} pixels'.format(self.max_width))
+            return line
+
         line = self._clip_or_pad_image(line)
         line = line[np.newaxis, :, :, :] / 255.
 
@@ -99,6 +103,10 @@ class EngineRepairCNN(object):
     def inpaint_line(self, line, transcription):
         labels = self._transcriptions_to_labels([transcription])[0]
         labels = self._clip_or_pad_labels(labels).astype(np.int32)
+
+        if line.shape[1] > self.max_width:
+            print('Warning: image line too long, please only attempt repairing lines shorter than {} pixels'.format(self.max_width))
+            return line
 
         line = self._clip_or_pad_image(line)
         line = line[np.newaxis, :, :, :] / 255.
@@ -123,12 +131,8 @@ class EngineRepairCNN(object):
         return labels_clipped
 
     def _clip_or_pad_image(self, image):
-        if image.shape[1] > self.max_width:
-            image_clipped = image[:, :self.max_width, :]
-            print('Warning: image line too long, please only attempt repairing lines shorter than {} pixels'.format(self.max_width))
-        else:
-            image_clipped = np.zeros((self.height, self.max_width, 3))
-            image_clipped[:, :image.shape[1], :] = image
+        image_clipped = np.zeros((self.height, self.max_width, 3))
+        image_clipped[:, :image.shape[1], :] = image
         return image_clipped
 
 
