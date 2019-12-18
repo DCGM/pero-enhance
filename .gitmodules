@@ -1,0 +1,3 @@
+[submodule "pero"]
+	path = pero
+	url = https://github.com/DCGM/pero.git
