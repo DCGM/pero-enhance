@@ -10,7 +10,7 @@ Clone the repository and add the pero package to your `PYTHONPATH`.
 export PYTHONPATH=/abs/path/pero-quality/pero:$PYTHONPATH
 ```
 
-Before processing a document, you need to download configuration and models needed for line detection and character recongnition. This is done by launching `model/download_models.py` script.
+Before processing a document, you need to download configuration and models needed for enhancement and OCR. This is done by running `model/download_models.py` script.
 
 ## Usage
 Folder of images can be enhanced by running following:
