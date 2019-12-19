@@ -7,7 +7,7 @@ import re
 import pickle
 import json
 
-from pero.document_ocr import crop_engine
+from pero_ocr.document_ocr import crop_engine
 
 import numpy as np
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'

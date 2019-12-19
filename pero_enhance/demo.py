@@ -14,7 +14,7 @@ import cv2
 import shapely.geometry
 import tkinter as tk
 
-from pero.document_ocr import layout, page_parser
+from pero_ocr.document_ocr import layout, page_parser
 import repair_engine
 
 def parseargs():

@@ -1,3 +1,3 @@
-[submodule "pero"]
-	path = pero
-	url = https://github.com/DCGM/pero.git
+[submodule "pero-ocr"]
+	path = pero-ocr
+	url = https://github.com/DCGM/pero-ocr.git
