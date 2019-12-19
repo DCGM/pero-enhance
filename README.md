@@ -21,6 +21,6 @@ python repair_page.py -i /path/to/images -x /path/to/xmls -o /path/to/outputs
 ```
 Alternatively, you can run interactive demo by running the following:
 ```
-python demo.py -i /path/to/image -p /path/to/xml
+python demo.py -i /path/to/image -x /path/to/xml
 ```
 In case of XML missing or the path to XML file/folder not specified, automatic text detection and OCR is done using the pero `PageParser`. The default path to the downloaded enhancement and OCR models can be modified using `-r /path/to/enhancement/json`and `-p /path/to/ocr/config`, respectively. 
