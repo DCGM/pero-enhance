@@ -170,6 +170,8 @@ def main():
     else:
         raise Exception('Page xml file not found and automatic page parser config not specified.')
 
+    print('\n\n Welcome to the page enhancement interactive demo.')
+    print('After choosing a line by double-clicking, you can enhance it by pressing r key. After that, you can change individual parts of the text by selecting the area and pressing e key.')
 
     cv2.namedWindow("Page Editor", cv2.WINDOW_NORMAL)
     cv2.resizeWindow('Page Editor', 1024, 1024)
