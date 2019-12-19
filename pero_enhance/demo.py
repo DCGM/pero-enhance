@@ -3,6 +3,7 @@ import shutil
 import time
 import os
 import argparse
+import configparser
 import re
 
 import numpy as np
@@ -13,18 +14,15 @@ import cv2
 import shapely.geometry
 import tkinter as tk
 
-from pero.document_ocr import layout
-from pero.document_ocr import crop_engine as cropper
-from pero.ocr_engine import line_ocr_engine as ocr
-
+from pero.document_ocr import layout, page_parser
 import repair_engine
 
 def parseargs():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-i', '--input-img', required=True, help='Input image to repair')
-    parser.add_argument('-p', '--input-page', required=True, help='Input page xml (should contain detected lines and text)')
+    parser.add_argument('-i', '--input-img', required=True, help='Input image to enhance')
     parser.add_argument('-r', '--repair-json', help='Path to repair engine json', default='./model/enhance_LN_2019-12-18/repair_engine.json')
-    parser.add_argument('-o', '--ocr-json', help='Path to OCR engine json', default='./model/ocr_LN_2019-12-18/ocr_engine.json')
+    parser.add_argument('-x', '--input-page', help='Input page xml folder (if left empty, automatic line detection and OCR is run', default='')
+    parser.add_argument('-p', '--parse-config', help='Path to page parser config file', default='./model/ocr_LN_2019-12-18/config.ini')
     return parser.parse_args()
 
 class LayoutClicker(object):
@@ -144,14 +142,34 @@ def main():
     args = parseargs()
 
     page_img = cv2.imread(args.input_img)
-    page_layout = layout.PageLayout(file=args.input_page)
 
     page_img_orig = page_img.copy()
     page_img_rendered = page_img.copy()
 
     print('\nLoading engines...')
-    ocr_engine = ocr.EngineLineOCR(args.ocr_json, gpu_id=0)
+    if args.parse_config is not None:
+        config = configparser.ConfigParser()
+        config.read(args.parse_config)
+        # convert relative paths to absolute
+        for section, key in [['LINE_PARSER', 'MODEL_PATH'], ['OCR', 'OCR_JSON']]:
+            if not os.path.isabs(config[section][key]):
+                config[section][key] = os.path.realpath(os.path.join(os.path.dirname(args.parse_config), config[section][key]))
+        parser = page_parser.PageParser(config)
+    else:
+        parser = None
+
     enhancer = repair_engine.EngineRepairCNN(args.repair_json)
+
+    print('Loading page layout...')
+    if os.path.exists(args.input_page):
+        page_layout = layout.PageLayout(file=args.input_page)
+    elif not os.path.exists(args.input_page) and parser is not None:
+        print('Page xml file not found, running automatic parser...')
+        page_layout = layout.PageLayout(id='id_placeholder', page_size=(page_img.shape[0], page_img.shape[1]))
+        page_layout = parser.process_page(page_img, page_layout)
+    else:
+        raise Exception('Page xml file not found and automatic page parser config not specified.')
+
 
     cv2.namedWindow("Page Editor", cv2.WINDOW_NORMAL)
     cv2.resizeWindow('Page Editor', 1024, 1024)
@@ -200,7 +218,7 @@ def main():
             y2 = np.round(line_mapping[line_mapping.shape[0]//2, np.clip(layout_clicker.points[1][1]-offset[1], 0, line_mapping.shape[1]-2), 1]).astype(np.uint16)
             if layout_clicker.points[1][1]-offset[1] > line_mapping.shape[1]-10: # dirty fix noisy values at the end of coord map
                 y2 = np.amax(line_mapping[:,:,1].astype(np.uint16))
-            transcriptions, _ = ocr_engine.process_lines([line_crop[:, :np.minimum(y1, y2), :],
+            transcriptions, _ = parser.ocr.ocr_engine.process_lines([line_crop[:, :np.minimum(y1, y2), :],
                                                           line_crop[:, np.maximum(y1, y2):, :]])
             line_crop[:, np.minimum(y1, y2):np.maximum(y1, y2), :] = 0
             text_input = TextInputInpaint(transcriptions[0], transcriptions[1])

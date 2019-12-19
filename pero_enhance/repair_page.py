@@ -22,8 +22,8 @@ def parseargs():
     parser.add_argument('-i', '--input-images', required=True, help='Input image folder to enhance')
     parser.add_argument('-o', '--output-path', required=True, help='output image folder to save enhanced images')
     parser.add_argument('-r', '--repair-json', help='Path to repair engine json', default='./model/enhance_LN_2019-12-18/repair_engine.json')
-    parser.add_argument('-x', '--input-page', help='Input page xml folder (if empty or None, automatic line detection and OCR is run', default=None)
-    parser.add_argument('-p', '--parse-config', help='Path to page parser config file', default=None)
+    parser.add_argument('-x', '--input-page', help='Input page xml folder (if left empty, automatic line detection and OCR is run', default='')
+    parser.add_argument('-p', '--parse-config', help='Path to page parser config file', default='./model/ocr_LN_2019-12-18/config.ini')
     return parser.parse_args()
 
 def main():
