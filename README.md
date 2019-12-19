@@ -15,7 +15,7 @@ export PYTHONPATH=/abs/path/pero-quality/pero:$PYTHONPATH
 Before processing a document, you need to download configuration and models needed for enhancement and OCR. This is done by running `model/download_models.py` script.
 
 ## Usage
-Folder of images can be enhanced by running following:
+The enhancement uses document information in PAGE XML format. Folder of images can be enhanced by running following:
 ```
 python repair_page.py -i /path/to/images -x /path/to/xmls -o /path/to/outputs
 ```
