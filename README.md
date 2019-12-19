@@ -7,9 +7,9 @@ Tool for text-guided textual document scan quality enhancement.
 We currently provide models for OCR and enhancement of czech newspaper.
 
 ## Installation
-Clone the repository and add the pero package to your `PYTHONPATH`.
+Clone the repository and add the pero_ocr and pero_enhance package to your `PYTHONPATH`.
 ```
-export PYTHONPATH=/abs/path/pero-quality/pero:$PYTHONPATH
+export PYTHONPATH=/abs/path/to/package:$PYTHONPATH
 ```
 
 Before processing a document, you need to download configuration and models needed for enhancement and OCR. This is done by running `model/download_models.py` script.
