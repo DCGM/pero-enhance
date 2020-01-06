@@ -40,7 +40,14 @@ In your code, you can also use directly the EngineRepairCNN to enhance invidiual
 import repair_engine
 enhancer = repair_engine.EngineRepairCNN(path/to/repair_engine.json)
 enhanced_textline_image = enhancer.repair_line(textline_image, transcription_string)
+```
+or
+```
 inpainted_textline_image = enhancer.inpaint_line(textline_image, transcription_string)
+```
+or
+```
+enhanced_page_image = enhancer.enhance_page(page_img, page_layout)
 ```
 To inpaint a part of the textline, the model expects the according part of the textline image to be blacked-out.
 
