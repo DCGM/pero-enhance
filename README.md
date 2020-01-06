@@ -1,10 +1,10 @@
 # pero-enhance
 
-Tool for text-guided textual document scan quality enhancement. The method works on lines of text that can be input through a PAGE XML or detected automatically. By using text input along with the image, the results can be satisfactory even with parts of the text missing in the image. The tool includes functionality for cropping the text lines, processing them with our provided models for either text enhancement or inpainting and blending them back into the document page. We currently provide models for OCR and enhancement of czech newspaper.
+Tool for text-guided textual document scan quality enhancement. The method works on lines of text that can be input through a PAGE XML or detected automatically by a buil-in OCR. By using text input along with the image, the results can be correctly readable even with parts of the original text missing or severly degraded in the source image. The tool includes functionality for cropping the text lines, processing them with our provided  models for either text enhancement and inpainting, and for blending the enhanced text lines back into the source document image. We currently provide models for OCR and enhancement of czech newspapers optimized for low-quality scans from micro-films.
 
 <img src="images/orig.png" height="256"> <img src="images/enhanced_correct.png" height="256">
 
-The method is based on neural network that is trained on pairs of good quality and bad quality text document samples. The architecture includes convolutional encoder and decoder for repairing the visual quality of the text line image and transformer module that aligns input text string to the image to provide more information for the decoder.
+The method is based on Generative Adversarial Neural Networks (GAN) that are trained on pairs of good quality and bad quality text document examples. The architecture includes convolutional encoder and decoder for repairing the visual quality of the text line image and transformer module with attention mechanism that aligns input text string to the image to provide more information for the decoder.
 
 ## Installation
 Clone the repository and add the pero_enhance and pero_ocr package to your `PYTHONPATH`:
