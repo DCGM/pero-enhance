@@ -167,6 +167,7 @@ def main():
         print('Page xml file not found, running automatic parser...')
         page_layout = layout.PageLayout(id='id_placeholder', page_size=(page_img.shape[0], page_img.shape[1]))
         page_layout = parser.process_page(page_img, page_layout)
+        page_layout.to_pagexml(page_xml_file)
     else:
         raise Exception('Page xml file not found and automatic page parser config not specified.')
 
