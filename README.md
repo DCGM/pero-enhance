@@ -26,16 +26,23 @@ By default, models for czech newspaper is downloaded. Other models can be found 
 ### Demo
 The enhancement uses document information in PAGE XML format. Folder of images can be enhanced by running following:
 ```
-python repair_page.py -i /path/to/images -x /path/to/xmls -o /path/to/outputs
+python repair_page.py -i ./example/ -x ./example/ -o /path/to/outputs
 ```
 Alternatively, you can run interactive demo by running the following:
 ```
-python demo.py -i /path/to/image -x /path/to/xml
+python demo.py -i ./example/82f4ac84-6f1e-43ba-b1d5-e2b28d69508d.jpg -x ./example/82f4ac84-6f1e-43ba-b1d5-e2b28d69508d.xml
 ```
 In case of XML missing or the path to XML file/folder not specified, automatic text detection and OCR is done using the pero `PageParser`. The default path to the downloaded enhancement and OCR models can be modified using `-r /path/to/enhancement/json`and `-p /path/to/ocr/config`, respectively. 
 
 ### EngineRepairCNN class
-Lorem ipsum
+In your code, you can also use directly the EngineRepairCNN to enhance invidiual lines or page defined by pero.layout class.
+```
+import repair_engine
+enhancer = repair_engine.EngineRepairCNN(path/to/repair_engine.json)
+enhanced_textline_image = enhancer.repair_line(textline_image, transcription_string)
+inpainted_textline_image = enhancer.inpaint_line(textline_image, transcription_string)
+```
+To inpaint a part of the textline, the model expects the according part of the textline image to be blacked-out.
 
 ## Models
 
