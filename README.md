@@ -9,6 +9,8 @@ This package can be used as a standalone commandline tool to process document pa
 The method is based on Generative Adversarial Neural Networks (GAN) that are trained on pairs of good quality and bad quality text document examples. The architecture includes convolutional encoder and decoder for repairing the visual quality of the text line image and transformer module with attention mechanism that aligns input text string to the image to provide more information for the decoder.
 
 ## Installation
+The module requires python 3 and CUDA capable GPU.
+
 Clone the repository (which clones pero-ocr as submodule) and add the pero_enhance and pero_ocr package to your `PYTHONPATH`:
 ```
 clone https://github.com/DCGM/pero-enhance.git
