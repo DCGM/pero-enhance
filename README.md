@@ -13,7 +13,7 @@ The module requires python 3 and CUDA capable GPU.
 
 Clone the repository (which clones pero-ocr as submodule) and add the pero_enhance and pero_ocr package to your `PYTHONPATH`:
 ```
-clone https://github.com/DCGM/pero-enhance.git
+clone --recursive https://github.com/DCGM/pero-enhance.git
 cd pero-enhance
 export PYTHONPATH=/abs/path/to/repo/pero-enhance:/abs/path/to/repo/pero-enhance/pero-ocr:$PYTHONPATH
 ```
@@ -31,13 +31,13 @@ By default, models for czech newspapers are downloaded. Other models can be foun
 ### Demo
 Images in a folder can be enhanced by running following:
 ```
-python repair_page.py -i ./example/ -x ./example/ -o /path/to/outputs
+python repair_page.py -i ../example/ -x ../example/ -o /path/to/outputs
 ```
 The above command runs OCR, stores the OCR output in ./example/, and stores the enhance images in /path/to/outputs. The generated OCR Page XML files can be manualy revised if the OCR quality is not satisfactory, and the command can be repeated to use these changes for better image enhancement.
 
 Alternatively, you can run interactive demo by running the following, where the xml file is optional:
 ```
-python demo.py -i ./example/82f4ac84-6f1e-43ba-b1d5-e2b28d69508d.jpg -x ./example/82f4ac84-6f1e-43ba-b1d5-e2b28d69508d.xml
+python demo.py -i ../example/82f4ac84-6f1e-43ba-b1d5-e2b28d69508d.jpg -x ../example/82f4ac84-6f1e-43ba-b1d5-e2b28d69508d.xml
 ```
 When Page XML file is not provided, automatic text detection and OCR is done using `PageParser` from the pero-ocr package. 
 
