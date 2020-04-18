@@ -202,16 +202,16 @@ def main():
                 page_img_rendered = page_img.copy()
 
             elif action == 'revert':
-                line_crop, line_mapping, offset = enhancer.cropper.crop(
+                line_crop, line_mapping = enhancer.cropper.crop(
                             page_img_orig,
                             layout_clicker.chosen_line.baseline,
                             layout_clicker.chosen_line.heights,
                             return_mapping=True)
-                page_img = enhancer.cropper.blend_in(page_img, line_crop, line_mapping, offset)
+                page_img = enhancer.cropper.blend_in(page_img, line_crop, line_mapping)
                 page_img_rendered = page_img.copy()
 
         elif key == ord('e') and len(layout_clicker.points)==2:
-            line_crop, line_mapping, offset = enhancer.cropper.crop(
+            line_crop, line_mapping, = enhancer.cropper.crop(
                         page_img,
                         layout_clicker.chosen_line.baseline,
                         layout_clicker.chosen_line.heights,
@@ -230,8 +230,8 @@ def main():
                 layout_clicker.chosen_line.transcription = new_transcription
 
                 line_crop = enhancer.inpaint_line(line_crop, layout_clicker.chosen_line.transcription)
-                page_img = enhancer.cropper.blend_in(page_img, line_crop, line_mapping, offset)
-                line_crop, line_mapping, offset = enhancer.cropper.crop(
+                page_img = enhancer.cropper.blend_in(page_img, line_crop, line_mapping)
+                line_crop, line_mapping = enhancer.cropper.crop(
                             page_img,
                             layout_clicker.chosen_line.baseline,
                             layout_clicker.chosen_line.heights,

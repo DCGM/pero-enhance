@@ -74,13 +74,13 @@ class EngineRepairCNN(object):
         return page_img
 
     def enhance_line_in_page(self, page_img, textline):
-        line_crop, line_mapping, offset = self.cropper.crop(
+        line_crop, line_mapping = self.cropper.crop(
                     page_img,
                     textline.baseline,
                     textline.heights,
                     return_mapping=True)
         line_crop = self.repair_line(line_crop, textline.transcription)
-        page_img = self.cropper.blend_in(page_img, line_crop, line_mapping, offset)
+        page_img = self.cropper.blend_in(page_img, line_crop, line_mapping)
         return page_img
 
     def repair_line(self, line, transcription):
