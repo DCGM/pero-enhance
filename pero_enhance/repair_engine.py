@@ -63,24 +63,22 @@ class EngineRepairCNN(object):
             saver.restore(self.inpainting_session, os.path.join(parent_folder, inpainting_model))
 
     def enhance_page(self, page_img, page_layout):
-        num_lines = 0
-        for _ in page_layout.lines_iterator():
-            num_lines += 1
+        lines = [line for line in page_layout.lines_iterator()]
+        num_lines = len(lines)
 
-        for i, textline in enumerate(page_layout.lines_iterator(), 1):
+        for i, textline in enumerate(lines, 1):
             page_img = self.enhance_line_in_page(page_img, textline)
             printProgressBar(i, num_lines, prefix='Repairing line {} ({}/{})'.format(textline.id, i, num_lines))
-
         return page_img
 
     def enhance_line_in_page(self, page_img, textline):
-        line_crop, line_mapping = self.cropper.crop(
+        line_crop, line_mapping, offset = self.cropper.crop(
                     page_img,
                     textline.baseline,
                     textline.heights,
                     return_mapping=True)
         line_crop = self.repair_line(line_crop, textline.transcription)
-        page_img = self.cropper.blend_in(page_img, line_crop, line_mapping)
+        page_img = self.cropper.blend_in(page_img, line_crop, line_mapping, offset)
         return page_img
 
     def repair_line(self, line, transcription):
