@@ -47,23 +47,24 @@ def main():
         parser = None
 
     for filename in os.listdir(args.input_images):
-        page_img = cv2.imread(os.path.join(args.input_images, filename))
-        page_id, _ = os.path.splitext(filename)
-        page_xml_file = os.path.join(args.input_page, page_id+'.xml')
+        if os.path.splitext(filename)[1].lower() in ['.jpg', '.png', '.tif']:
+            page_img = cv2.imread(os.path.join(args.input_images, filename))
+            page_id, _ = os.path.splitext(filename)
+            page_xml_file = os.path.join(args.input_page, page_id+'.xml')
 
-        if os.path.exists(page_xml_file):
-            page_layout = layout.PageLayout(file=page_xml_file)
-        elif not os.path.exists(page_xml_file) and parser is not None:
-            print('Page xml file for page {} not found, running automatic parser...'.format(page_id))
-            page_layout = layout.PageLayout(id=page_id, page_size=(page_img.shape[0], page_img.shape[1]))
-            page_layout = parser.process_page(page_img, page_layout)
-            page_layout.to_pagexml(page_xml_file)
-        else:
-            raise Exception('Page xml file for page {} not found and automatic page parser config not specified.'.format(page_id))
+            if os.path.exists(page_xml_file):
+                page_layout = layout.PageLayout(file=page_xml_file)
+            elif not os.path.exists(page_xml_file) and parser is not None:
+                print('Page xml file for page {} not found, running automatic parser...'.format(page_id))
+                page_layout = layout.PageLayout(id=page_id, page_size=(page_img.shape[0], page_img.shape[1]))
+                page_layout = parser.process_page(page_img, page_layout)
+                page_layout.to_pagexml(page_xml_file)
+            else:
+                raise Exception('Page xml file for page {} not found and automatic page parser config not specified.'.format(page_id))
 
-        page_img = enhancer.enhance_page(page_img, page_layout)
+            page_img = enhancer.enhance_page(page_img, page_layout)
 
-        cv2.imwrite(os.path.join(args.output_path, '{}_enhanced.jpg'.format(page_id)), page_img)
+            cv2.imwrite(os.path.join(args.output_path, '{}_enhanced.jpg'.format(page_id)), page_img)
 
 if __name__=='__main__':
     main()
