@@ -40,8 +40,8 @@ class LayoutClicker(object):
             if not self.double_click:
                 if not self.drawing and self.chosen_line:
                     self.points = []
-                    self.points.append((y, x))
-                    self.points.append((y, x))
+                    self.points.append((x, y))
+                    self.points.append((x, y))
                     if shapely.geometry.Polygon(self.chosen_line.polygon).contains(shapely.geometry.Point(self.points[-1])):
                         self.drawing = True
                     else:
@@ -52,12 +52,12 @@ class LayoutClicker(object):
             else:
                 self.double_click = False
         elif event == cv2.EVENT_MOUSEMOVE and self.drawing and self.points:
-            self.points[-1] = (y, x)
+            self.points[-1] = (x, y)
         elif event == cv2.EVENT_LBUTTONDBLCLK:
             self.double_click = True
             self.drawing = False
             self.points = []
-            self.down_pos = shapely.geometry.Point(y, x)
+            self.down_pos = shapely.geometry.Point(x, y)
             for line in self.layout.lines_iterator():
                 poly = shapely.geometry.Polygon(line.polygon)
                 if poly.contains(self.down_pos):
@@ -202,25 +202,24 @@ def main():
                 page_img_rendered = page_img.copy()
 
             elif action == 'revert':
-                line_crop, line_mapping = enhancer.cropper.crop(
+                line_crop, line_mapping, offset = enhancer.cropper.crop(
                             page_img_orig,
                             layout_clicker.chosen_line.baseline,
                             layout_clicker.chosen_line.heights,
                             return_mapping=True)
-                page_img = enhancer.cropper.blend_in(page_img, line_crop, line_mapping)
+                page_img = enhancer.cropper.blend_in(page_img, line_crop, line_mapping, offset)
                 page_img_rendered = page_img.copy()
 
         elif key == ord('e') and len(layout_clicker.points)==2:
-            line_crop, line_mapping, = enhancer.cropper.crop(
+            line_crop, line_mapping, offset = enhancer.cropper.crop(
                         page_img,
                         layout_clicker.chosen_line.baseline,
                         layout_clicker.chosen_line.heights,
                         return_mapping=True)
 
-            y1 = np.round(line_mapping[line_mapping.shape[0]//2, layout_clicker.points[0][1]-offset[1], 1]).astype(np.uint16)
-            y2 = np.round(line_mapping[line_mapping.shape[0]//2, np.clip(layout_clicker.points[1][1]-offset[1], 0, line_mapping.shape[1]-2), 1]).astype(np.uint16)
-            if layout_clicker.points[1][1]-offset[1] > line_mapping.shape[1]-10: # dirty fix noisy values at the end of coord map
-                y2 = np.amax(line_mapping[:,:,1].astype(np.uint16))
+            y1 = np.round(line_mapping[line_mapping.shape[0]//2, layout_clicker.points[0][0]-offset[1], 0]).astype(np.uint16)
+            y2 = np.round(line_mapping[line_mapping.shape[0]//2, np.clip(layout_clicker.points[1][0]-offset[1], 0, line_mapping.shape[1]-2), 0]).astype(np.uint16)
+
             transcriptions, _ = parser.ocr.ocr_engine.process_lines([line_crop[:, :np.minimum(y1, y2), :],
                                                           line_crop[:, np.maximum(y1, y2):, :]])
             line_crop[:, np.minimum(y1, y2):np.maximum(y1, y2), :] = 0
@@ -230,8 +229,8 @@ def main():
                 layout_clicker.chosen_line.transcription = new_transcription
 
                 line_crop = enhancer.inpaint_line(line_crop, layout_clicker.chosen_line.transcription)
-                page_img = enhancer.cropper.blend_in(page_img, line_crop, line_mapping)
-                line_crop, line_mapping = enhancer.cropper.crop(
+                page_img = enhancer.cropper.blend_in(page_img, line_crop, line_mapping, offset)
+                line_crop, line_mapping, offset = enhancer.cropper.crop(
                             page_img,
                             layout_clicker.chosen_line.baseline,
                             layout_clicker.chosen_line.heights,
