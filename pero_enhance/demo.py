@@ -20,9 +20,9 @@ import repair_engine
 def parseargs():
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input-img', required=True, help='Input image to enhance')
-    parser.add_argument('-r', '--repair-json', help='Path to repair engine json', default='./model/enhance_LN_2019-12-18/repair_engine.json')
+    parser.add_argument('-r', '--repair-json', help='Path to repair engine json', default='./model/enhancement/repair.json')
     parser.add_argument('-x', '--input-page', help='Input page xml folder (if left empty, automatic line detection and OCR is run', default='')
-    parser.add_argument('-p', '--parse-config', help='Path to page parser config file', default='./model/ocr_LN_2019-12-18/config.ini')
+    parser.add_argument('-p', '--parse-config', help='Path to page parser config file', default='./model/ocr/config.ini')
     return parser.parse_args()
 
 class LayoutClicker(object):
@@ -165,9 +165,12 @@ def main():
         page_layout = layout.PageLayout(file=args.input_page)
     elif not os.path.exists(args.input_page) and parser is not None:
         print('Page xml file not found, running automatic parser...')
-        page_layout = layout.PageLayout(id='id_placeholder', page_size=(page_img.shape[0], page_img.shape[1]))
-        page_layout = parser.process_page(page_img, page_layout)
-        page_layout.to_pagexml(args.input_page)
+        page_layout = layout.PageLayout(id='id_placeholder', page_size=(page_img_orig.shape[0], page_img_orig.shape[1]))
+        page_layout = parser.process_page(page_img_orig, page_layout)
+        if not os.path.exists('./output_pages'):
+            os.makedirs('./output_pages')
+        file_name = os.path.splitext(os.path.split(args.input_img)[1])[0]
+        page_layout.to_pagexml(os.path.join('./output_pages', '{}.xml'.format(file_name)))
     else:
         raise Exception('Page xml file not found and automatic page parser config not specified.')
 

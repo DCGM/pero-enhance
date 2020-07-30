@@ -10,7 +10,7 @@ def main():
     http = PoolManager()
 
     print('downloading OCR model')
-    r: HTTPResponse = http.request('GET', 'http://www.fit.vutbr.cz/~ihradis/pero-models/ocr_LN_2019-12-18.zip')
+    r: HTTPResponse = http.request('GET', 'http://www.fit.vutbr.cz/~ikodym/public_models/ocr_LN_2020-30-7.zip')
 
     assert 200 <= r.status < 300, f"Request status {r.status}"
 
@@ -19,7 +19,7 @@ def main():
     zfile.extractall(path=dirname(__file__))
 
     print('downloading enhancement model')
-    r: HTTPResponse = http.request('GET', 'http://www.fit.vutbr.cz/~ihradis/pero-models/enhance_LN_2019-12-18.zip')
+    r: HTTPResponse = http.request('GET', 'http://www.fit.vutbr.cz/~ikodym/public_models/enhancement_LN_2020-30-7.zip')
 
     assert 200 <= r.status < 300, f"Request status {r.status}"
 

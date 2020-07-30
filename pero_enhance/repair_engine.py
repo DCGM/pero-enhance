@@ -86,7 +86,7 @@ class EngineRepairCNN(object):
         labels = self._clip_or_pad_labels(labels).astype(np.int32)
 
         if line.shape[1] > self.max_width:
-            print('Warning: image line too long, please only attempt repairing lines shorter than {} pixels'.format(self.max_width))
+            print('Warning: image line too long, please only attempt repairing lines shorter than {} pixels after rescaling to target height.'.format(self.max_width))
             return line
 
         line = self._clip_or_pad_image(line)
@@ -103,7 +103,7 @@ class EngineRepairCNN(object):
         labels = self._clip_or_pad_labels(labels).astype(np.int32)
 
         if line.shape[1] > self.max_width:
-            print('Warning: image line too long, please only attempt repairing lines shorter than {} pixels'.format(self.max_width))
+            print('Warning: image line too long, please only attempt repairing lines shorter than {} pixels after rescaling to target height.'.format(self.max_width))
             return line
 
         line = self._clip_or_pad_image(line)
