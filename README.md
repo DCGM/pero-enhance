@@ -63,5 +63,5 @@ The method enhancer.repair_line improves readability of the text line. The metho
 
  | OCR Model | Enhancement Model | Target data |
  | --- | --- | --- |
- | [ocr_LN_2019-12-18.zip](http://www.fit.vutbr.cz/~ihradis/pero-models/ocr_LN_2019-12-18.zip) | [enhance_LN_2019-12-18.zip](http://www.fit.vutbr.cz/~ihradis/pero-models/enhance_LN_2019-12-18.zip) | Czech newspaper digitized from micro-films |
+ | [ocr_LN_2020-30-7.zip](http://www.fit.vutbr.cz/~ikodym/public_models/ocr_LN_2020-30-7.zip) | [enhance_LN_2020-30-7.zip](http://www.fit.vutbr.cz/~ikodym/public_models/enhancement_LN_2020-30-7.zip) | Czech newspaper digitized from micro-films |
  | More to come | | |
