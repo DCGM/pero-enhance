@@ -65,3 +65,11 @@ The method enhancer.repair_line improves readability of the text line. The metho
  | --- | --- | --- |
  | [ocr_LN_2020-30-7.zip](http://www.fit.vutbr.cz/~ikodym/public_models/ocr_LN_2020-30-7.zip) | [enhance_LN_2020-30-7.zip](http://www.fit.vutbr.cz/~ikodym/public_models/enhancement_LN_2020-30-7.zip) | Czech newspaper digitized from micro-films |
  | More to come | | |
+ 
+ ## Training
+ You can download example training data from [here](https://www.fit.vutbr.cz/~ikodym/LN_repair_data.zip). After unzipping them, you can run the training script:
+```
+ cd ./training
+ python3 train.py --hq-lines /path/to/data.trn --lq-lines /path/to/data.trn --tst-lines /path/to/data.tst --output-path /path/to/output_folder --degrade-trn --degrade-tst --mask-prob 1
+```
+ This will train the inpaining model on the czech newspaper dataset. The --degrade-tst and --degrade-trn flags indicate that synthetic degradation should be used on the low-quality training and testing data.
