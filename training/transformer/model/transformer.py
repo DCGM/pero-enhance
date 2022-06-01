@@ -40,7 +40,7 @@ class Transformer(object):
   Implemented as described in: https://arxiv.org/pdf/1706.03762.pdf
 
   The Transformer model consists of an encoder and decoder. The input is an int
-  sequence (or a batch of sequences). The encoder produces a continous
+  sequence (or a batch of sequences). The encoder produces a continuous
   representation, and the decoder uses the encoder output to generate
   probabilities for the output sequence.
   """
