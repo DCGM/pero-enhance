@@ -83,7 +83,7 @@ _TARGET_VOCAB_SIZE = 32768  # Number of subtokens in the vocabulary list.
 _TARGET_THRESHOLD = 327  # Accept vocabulary if size is within this threshold
 VOCAB_FILE = "vocab.ende.%d" % _TARGET_VOCAB_SIZE
 
-# Strings to inclue in the generated files.
+# Strings to include in the generated files.
 _PREFIX = "wmt32k"
 _TRAIN_TAG = "train"
 _EVAL_TAG = "dev"  # Following WMT and Tensor2Tensor conventions, in which the

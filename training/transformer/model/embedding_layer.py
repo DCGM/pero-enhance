@@ -32,7 +32,7 @@ class EmbeddingSharedWeights(tf.layers.Layer):
       hidden_size: Dimensionality of the embedding. (Typically 512 or 1024)
       method: Strategy for performing embedding lookup. "gather" uses tf.gather
         which performs well on CPUs and GPUs, but very poorly on TPUs. "matmul"
-        one-hot encodes the indicies and formulates the embedding as a sparse
+        one-hot encodes the indices and formulates the embedding as a sparse
         matrix multiplication. The matmul formulation is wasteful as it does
         extra work, however matrix multiplication is very fast on TPUs which
         makes "matmul" considerably faster than "gather" on TPUs.

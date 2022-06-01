@@ -498,7 +498,7 @@ def _gen_new_subtoken_list(
     subtoken_counts, min_count, alphabet, reserved_tokens=None):
   """Generate candidate subtokens ordered by count, and new max subtoken length.
 
-  Add subtokens to the candiate list in order of length (longest subtokens
+  Add subtokens to the candidate list in order of length (longest subtokens
   first). When a subtoken is added, the counts of each of its prefixes are
   decreased. Prefixes that don't appear much outside the subtoken are not added
   to the candidate list.
@@ -516,7 +516,7 @@ def _gen_new_subtoken_list(
 
   Args:
     subtoken_counts: defaultdict mapping str subtokens to int counts
-    min_count: int minumum count requirement for subtokens
+    min_count: int minimum count requirement for subtokens
     alphabet: set of characters. Each character is added to the subtoken list to
       guarantee that all tokens can be encoded.
     reserved_tokens: list of tokens that will be added to the beginning of the

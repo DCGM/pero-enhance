@@ -1,6 +1,6 @@
 # pero-enhance
 
-Tool for text-guided textual document scan quality enhancement. The method works on lines of text that can be input through a PAGE XML or detected automatically by a buil-in OCR. By using text input along with the image, the results can be correctly readable even with parts of the original text missing or severly degraded in the source image. The tool includes functionality for cropping the text lines, processing them with our provided  models for either text enhancement and inpainting, and for blending the enhanced text lines back into the source document image. We currently provide models for OCR and enhancement of czech newspapers optimized for low-quality scans from micro-films.
+Tool for text-guided textual document scan quality enhancement. The method works on lines of text that can be input through a PAGE XML or detected automatically by a built-in OCR. By using text input along with the image, the results can be correctly readable even with parts of the original text missing or severely degraded in the source image. The tool includes functionality for cropping the text lines, processing them with our provided  models for either text enhancement and inpainting, and for blending the enhanced text lines back into the source document image. We currently provide models for OCR and enhancement of czech newspapers optimized for low-quality scans from micro-films.
 
 This package can be used as a standalone commandline tool to process document pages in bulk. Alternatively, the package provides a python class that can be integrated in third-party software.
 
@@ -33,7 +33,7 @@ Images in a folder can be enhanced by running following:
 ```
 python repair_page.py -i ../example/ -x ../example/ -o /path/to/outputs
 ```
-The above command runs OCR, stores the OCR output in ./example/, and stores the enhance images in /path/to/outputs. The generated OCR Page XML files can be manualy revised if the OCR quality is not satisfactory, and the command can be repeated to use these changes for better image enhancement.
+The above command runs OCR, stores the OCR output in ./example/, and stores the enhance images in /path/to/outputs. The generated OCR Page XML files can be manually revised if the OCR quality is not satisfactory, and the command can be repeated to use these changes for better image enhancement.
 
 Alternatively, you can run interactive demo by running the following, where the xml file is optional:
 ```
@@ -41,7 +41,7 @@ python demo.py -i ../example/82f4ac84-6f1e-43ba-b1d5-e2b28d69508d.jpg -x ../exam
 ```
 When Page XML file is not provided, automatic text detection and OCR is done using `PageParser` from the pero-ocr package. 
 
-The commands use by default models and settings optimized for czech newspapers downloaded during instalation. The models can be changed Different models for enhancement can be specified by `-r /path/to/enhancement-model/repair_engine.json` and OCR models by `-p /path/to/ocr-model/config.ini`. 
+The commands use by default models and settings optimized for czech newspapers downloaded during installation. The models can be changed Different models for enhancement can be specified by `-r /path/to/enhancement-model/repair_engine.json` and OCR models by `-p /path/to/ocr-model/config.ini`.
 
 ### EngineRepairCNN class
 In your code, you can directly use the EngineRepairCNN class to enhance individual text line images normalized to height of 32 pixels or of whole page images when the content is  defined by pero.layout class. The processed images should have three channels represented as numpy arrays.
