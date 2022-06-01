@@ -11,7 +11,7 @@ The method is based on Generative Adversarial Neural Networks (GAN) that are tra
 ## Installation
 The module requires python 3 and CUDA capable GPU.
 
-Clone the repository (which clones pero-ocr as submodule) and add the pero-enhance and pero_ocr package to your `PYTHONPATH`:
+Clone the repository (which clones pero-ocr as submodule) and add the pero-enhance and pero-ocr package to your `PYTHONPATH`:
 ```
 git clone --recursive https://github.com/DCGM/pero-enhance.git
 cd pero-enhance
