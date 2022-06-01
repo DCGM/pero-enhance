@@ -13,7 +13,7 @@ The module requires python 3 and CUDA capable GPU.
 
 Clone the repository (which clones pero-ocr as submodule) and add the pero_enhance and pero_ocr package to your `PYTHONPATH`:
 ```
-clone --recursive https://github.com/DCGM/pero-enhance.git
+git clone --recursive https://github.com/DCGM/pero-enhance.git
 cd pero-enhance
 export PYTHONPATH=/abs/path/to/repo/pero-enhance:/abs/path/to/repo/pero-enhance/pero-ocr:$PYTHONPATH
 ```
